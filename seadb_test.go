@@ -53,3 +53,25 @@ func TestGetSmallGifs(t *testing.T) {
 	err = download(url, filepath.Join("test", filename))
 	assert.Nil(t, err)
 }
+
+func BenchmarkDownload(b *testing.B) {
+	seadb, err := NewSeaDB(db)
+	if err != nil {
+		panic(err)
+	}
+	urls, err := seadb.SmallGifs()
+	if err != nil {
+		panic(err)
+	}
+
+	for _, url := range urls {
+		filename, err := getFilename(url)
+		if err != nil {
+			panic(err)
+		}
+		err = download(url, filepath.Join("test", filename))
+		if err != nil {
+			panic(err)
+		}
+	}
+}

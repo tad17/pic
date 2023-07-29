@@ -3,7 +3,6 @@ package pic
 import (
 	"fmt"
 	"io"
-	"io/ioutil"
 	"net/http"
 	"os"
 	"strings"
@@ -58,7 +57,7 @@ func download(url string, filename string) error {
 	}
 
 	_, err = sw.Download(fid, nil, func(r io.Reader) (err error) {
-		data, err := ioutil.ReadAll(r)
+		data, err := io.ReadAll(r)
 		if err != nil {
 			return err
 		}
