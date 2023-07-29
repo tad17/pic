@@ -8,7 +8,7 @@ import (
 
 func TestNewPicture(t *testing.T) {
 	// для тестирования базу данных не учитываем
-	p := NewPicture(nil, "проверка")
+	p := NewPicture("проверка")
 	assert.Equal(t, p.Album, "проверка", "должны быть одинаковыми")
 }
 

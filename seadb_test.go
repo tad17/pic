@@ -4,19 +4,24 @@ import (
 	//"log"
 	"testing"
 	"github.com/stretchr/testify/assert"
+	"github.com/jmoiron/sqlx"
 )
 
+var db = openDB()
+
+func openDB() *sqlx.DB {
+	db, err := sqlx.Open("mysql", "itman:X753951x@(xigmanas:3306)/sea")
+	if err != nil {
+		panic(err)
+	}
+	return db
+}
+
 func TestGetSmallGifs(t *testing.T) {
-	url, err := upload("weed_test.go") 
+	seadb, err := NewSeaDB(db)
 	assert.Nil(t, err)
-	//log.Printf("url: %s\n", url)
 
-
-	// проверка на обработку ошибок (перепутал url и fid)
-	err = delete("4,23456")
-	assert.NotNil(t, err)
-
-	// проверка на корректный url
-	err = delete(url)
+	urls, err := seadb.SmallGifs()
 	assert.Nil(t, err)
+	assert.Equal(t, len(urls), 10, "должны получить 10 записей")
 }

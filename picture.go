@@ -3,7 +3,7 @@ package pic
 import (
 	"fmt"
 	"strings"
-	"github.com/jmoiron/sqlx"
+	//"github.com/jmoiron/sqlx"
 )
 
 //Picture - работа с картинками
