@@ -17,7 +17,7 @@ func TestBaseName(t *testing.T) {
 	base := baseName("c:\\Проверка файла с каталогом\\test.jpg")
 	assert.Equal(t, base, "test", "должны быть одинаковыми")
 
-	base = baseName("/Проверка файла с каталогом/test.jpg")
+	base = baseName("/каталог файла/test.jpg")
 	assert.Equal(t, base, "test", "должны быть одинаковыми")
 
 	base = baseName("/test.jpg")

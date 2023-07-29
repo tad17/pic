@@ -61,13 +61,18 @@ func download(url string, filename string) error {
 		if err != nil {
 			return err
 		}
+
 		file, err := os.OpenFile(filename, os.O_CREATE, 0666)
 		if err != nil {
 			return err
 		}
 		_, err = file.Write(data)
-		file.Close()
-		return
+		if err != nil {
+			return err
+		}
+
+		err = file.Close()
+		return err
 	})
 
 	return err
