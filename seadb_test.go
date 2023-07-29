@@ -1,6 +1,8 @@
 package pic
 
 import (
+	"os"
+	"path/filepath"
 	"strings"
 	"testing"
 
@@ -19,6 +21,13 @@ func openDB() *sqlx.DB {
 	return db
 }
 
+// создадим временный каталог для тестирования
+func TestMain(m *testing.M) {
+	os.RemoveAll("test")
+	os.Mkdir("test", 0666)
+	os.Exit(m.Run())
+}
+
 func TestGetSmallGifs(t *testing.T) {
 	seadb, err := NewSeaDB(db)
 	// если ошибка - дальнейшая проверка бессмыслена
@@ -34,4 +43,13 @@ func TestGetSmallGifs(t *testing.T) {
 		assert.Equal(t, strings.HasPrefix(u, "http://192.168.0.105:9091/"), true, "должен начинаться с http://192.168.0.105:9091/")
 		assert.Equal(t, strings.HasSuffix(u, ".gif"), true, "должен заканчиваться на .gif")
 	}
+
+	// проверим загрузку
+	url := urls[1]
+	// fid := baseName()
+	filename, err := getFilename(url)
+	assert.Nil(t, err)
+
+	err = download(url, filepath.Join("test", filename))
+	assert.Nil(t, err)
 }
