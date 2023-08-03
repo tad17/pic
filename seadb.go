@@ -1,6 +1,8 @@
 package pic
 
 import (
+	"fmt"
+
 	"github.com/jmoiron/sqlx"
 )
 
@@ -10,6 +12,9 @@ type SeaDB struct {
 }
 
 func NewSeaDB(db *sqlx.DB) (*SeaDB, error) {
+	if db == nil {
+		return nil, fmt.Errorf("db = nil")
+	}
 	seadb := SeaDB{db: db}
 	return &seadb, nil
 }
@@ -28,8 +33,6 @@ func (sea *SeaDB) SmallGifs() ([]string, error) {
     		and del = 0 
     		and filemeta.converted = 0 
     		and pic.width < 400
-		LIMIT 
-			10;
 	`
 	var urls []string
 	err := sea.db.Select(&urls, cmd)

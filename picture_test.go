@@ -58,22 +58,35 @@ func TestGetSize(t *testing.T) {
 	assert.Equal(t, h, "1980", "должны быть 1980")
 }
 
-func TestConvert(t *testing.T) {
+func TestConvertFile(t *testing.T) {
 	// предварительно скопируем тестовый файл во временный каталог
 	tmpgif := "test.gif"
 	require.FileExists(t, tmpgif)
+
+	// создадим временный каталог
 	tmpdir := t.TempDir()
 	filename := filepath.Join(tmpdir, tmpgif)
 
+	// скопируем исходный файл в этот каталог
 	err := copyFile(tmpgif, filename)
 	require.NoError(t, err)
 	require.FileExists(t, filename)
 
-	webp, err := convert(filename)
+	// собственно конвертация
+	webp, err := convertFile(filename)
 	assert.NoError(t, err)
 	require.FileExists(t, webp.filename)
 
 	// скопируем обратно, что бы посмотреть, что получилось
-	err = copyFile(webp.filename, "d:/projects/pic/test.webp")
+	// err = copyFile(webp.filename, "d:/projects/pic/test.webp")
+	// assert.NoError(t, err)
+}
+
+func TestConvert(t *testing.T) {
+	// проверяем, что после конвертации файлы удаляются
+	tmpgif := "test.gif"
+	require.FileExists(t, tmpgif)
+
+	err := Convert(tmpgif)
 	assert.NoError(t, err)
 }

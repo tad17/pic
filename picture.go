@@ -3,6 +3,8 @@ package pic
 import (
 	"fmt"
 	"io/ioutil"
+	"log"
+	"os"
 	"regexp"
 	"strings"
 
@@ -68,9 +70,12 @@ type WebpFile struct {
 	height   string
 }
 
-// конвертация из .gif в .webp с изменением размеров файла
-// filename - исходный файл gif
-func convert(filename string) (WebpFile, error) {
+// конвертация из .gif в .webp с изменением размера файла
+// с использованием программы ffmpeg.
+// filename - исходный файл gif (полный путь)
+// Возвращает описание выходного файла WebpFile
+// Выходной файл находится рядом с исходным
+func convertFile(filename string) (WebpFile, error) {
 	webpfile := WebpFile{}
 
 	cmd, webp, err := cmdFfmpeg(filename)
@@ -98,6 +103,32 @@ func convert(filename string) (WebpFile, error) {
 	// fid := upload(newname)
 	// println(fid)
 	return webpfile, nil
+}
+
+// Экспорт функции конвертации
+func Convert(filename string) error {
+	webp, err := convertFile(filename)
+	if err != nil {
+		return err
+	}
+
+	log.Printf("[%sx%s] %s\n", webp.width, webp.height, webp.filename)
+
+	// все сделано, удалим исходный и выходной файл
+	if err := deleteFile(filename); err != nil {
+		return err
+	}
+
+	if err := deleteFile(webp.filename); err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func deleteFile(filename string) error {
+	err := os.Remove(filename)
+	return err
 }
 
 // получает размер файла из вывода команды ffmpeg
