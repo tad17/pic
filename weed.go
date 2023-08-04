@@ -19,10 +19,11 @@ func init() {
 	filer := []string{}
 	sw, _ = goseaweedfs.NewSeaweed(
 		masterURL, // master server
-		filer,     // нету у меня filer
+		filer,     // ну нету у меня filer
 		8096,      // размер chunk
 		&http.Client{Timeout: 5 * time.Minute})
 
+	// просто проверим, что weed запущен
 	_, err := sw.Status()
 	if err != nil {
 		panic(err)

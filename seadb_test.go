@@ -48,13 +48,19 @@ func TestGetSmallGifs(t *testing.T) {
 
 // Проверка загрузки из weed
 func TestDownload(t *testing.T) {
-	// для удобства - теперь вместо assert(t...) пишем просто assert(..)
-	assert := assert.New(t)
-	url := "http://192.168.0.105:9090/1,15df3bf5a2b6cb"
+	// используем временный каталог для тестирования
 	tmpdir := t.TempDir()
 
+	// для удобства - теперь вместо assert(t...) пишем просто assert(..)
+	assert := assert.New(t)
+
+	// этот url должен присутствовать в weed
+	url := "http://192.168.0.105:9091/1,10040dd9712a6b.png"
+
 	// формируем полное имя файла с путем.
-	filename := filepath.Join(tmpdir, "1,15df3bf5a2b6cb")
+	filename := filepath.Join(tmpdir, "1,10040dd9712a6b.png")
+
+	// собственно загрузка файла
 	err := download(url, filename)
 	assert.Nil(err)
 	assert.FileExists(filename)

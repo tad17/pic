@@ -8,15 +8,21 @@ import (
 )
 
 func TestUpload(t *testing.T) {
-	url, err := upload("weed_test.go")
+	// проверка на пустой файл
+	url, err := upload("")
+	assert.NotNil(t, err)
+	assert.Equal(t, url, "", "должен быть пустым")
+
+	// правильный файл, ошибок не должно быть
+	url, err = upload("weed_test.go")
 	assert.Nil(t, err)
 	//log.Printf("url: %s\n", url)
 
-	// проверка на обработку ошибок (перепутал url и fid)
+	// проверка на обработку ошибок (возможно перепутал url и fid)
 	err = delete("4,23456")
 	assert.NotNil(t, err)
 
-	// проверка на корректный url
+	// проверка на удаление корректного файла (url)
 	err = delete(url)
 	assert.Nil(t, err)
 }
