@@ -27,7 +27,7 @@ type Picture struct {
 // Hello - приветствие и комментарии к модулю
 func Hello() {
 	fmt.Printf("pic - пакет для работы с картинками\n")
-	fmt.Printf("v0.0.1 - начальная версия\n")
+	fmt.Printf("v0.0.3 - промежуточная версия (не рабочая)\n")
 }
 
 func NewPicture(album string) Picture {
