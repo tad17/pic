@@ -12,6 +12,7 @@ import (
 
 var db *sqlx.DB
 
+// Для тестирования используем тестовую БД
 func openDB() *sqlx.DB {
 	db, err := sqlx.Open("mysql", "itman:X753951x@(xigmanas:3306)/sea-test")
 	if err != nil {

@@ -35,7 +35,7 @@ func deleteImagesDB(db *sqlx.DB, ids []int) error {
 	return nil
 }
 
-// перемещает картинки в альбом
+// перемещает картинки ( список) в альбом
 func moveImagesDB(db *sqlx.DB, newseria, ids string) error {
 	cmd := "UPDATE pic SET seria = ? WHERE file_id = ?"
 	// fmt.Printf("перемещаю: %v в %s\n", ids, newseria)
